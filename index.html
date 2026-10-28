@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#09090f">
+  <meta name="description" content="GhostWhisper AI — an eerie, privacy-first ghost story generator powered by open AI.">
+  <title>GhostWhisper AI | The Haunted Archive</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <header class="topbar">
+    <a href="#" class="brand">
+      <span class="brand-icon">☠</span>
+      <span>GHOST<span class="accent">WHISPER</span></span>
+    </a>
+    <div class="top-status">
+      <span class="status-dot"></span>
+      <span id="connectionStatus">DEMO SPIRIT ACTIVE</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="intro">
+      <p class="eyebrow">✦ AN EXPERIMENT IN OPEN AI ✦</p>
+      <h1>Some stories<br>refuse to <span>stay buried.</span></h1>
+      <p class="intro-text">
+        Enter a memory. Whisper a secret. Let the machine
+        turn it into a tale from the other side.
+      </p>
+      <div class="intro-tags">
+        <span>LOCAL-FIRST</span>
+        <span>OPEN-WEIGHT AI</span>
+        <span>YOUR STORIES, YOURS</span>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">01 / THE SUMMONING</p>
+          <h2>Call forth a story</h2>
+        </div>
+        <span class="moon">☾</span>
+      </div>
+
+      <label for="prompt">WHAT LURKS IN YOUR IMAGINATION?</label>
+      <textarea id="prompt" rows="4"
+        placeholder="A forgotten house, a voice on an old recording, a letter from someone who vanished..."></textarea>
+
+      <div class="form-row">
+        <div class="field">
+          <label for="genre">CHOOSE YOUR NIGHTMARE</label>
+          <select id="genre">
+            <option value="Psychological Horror">Psychological horror</option>
+            <option value="Gothic Horror">Gothic horror</option>
+            <option value="Ghost Story">Classic ghost story</option>
+            <option value="Cosmic Horror">Cosmic horror</option>
+            <option value="Folklore Horror">Folklore &amp; legends</option>
+            <option value="Digital Horror">Digital / AI horror</option>
+            <option value="Melancholic Remembrance">Melancholic remembrance</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="length">STORY LENGTH</label>
+          <select id="length">
+            <option value="short">Short</option>
+            <option value="medium" selected>Medium</option>
+            <option value="long">Long</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="prompt-hint">
+        <span>✧</span>
+        <span id="hintText">The machine is listening. Give it a memory.</span>
+        <button id="randomPrompt" class="text-button" type="button">Surprise me ↗</button>
+      </div>
+
+      <div class="actions">
+        <button id="generateBtn" class="primary-button" type="button">
+          <span>☠</span> Summon a story
+        </button>
+        <button id="clearBtn" class="secondary-button" type="button">Clear</button>
+      </div>
+
+      <div class="model-box">
+        <div class="model-heading">
+          <span class="model-symbol">⌘</span>
+          <div>
+            <strong>Choose your storyteller</strong>
+            <p>Demo mode works without a model.</p>
+          </div>
+        </div>
+        <label class="model-choice">
+          <input type="radio" name="mode" value="demo" checked>
+          <span>
+            <strong>Demo spirit</strong>
+            <small>Instant sample stories · No setup</small>
+          </span>
+        </label>
+        <label class="model-choice">
+          <input type="radio" name="mode" value="local">
+          <span>
+            <strong>Local open-weight AI</strong>
+            <small>Uses Ollama on your own computer</small>
+          </span>
+        </label>
+        <div id="modelSettings" class="model-settings hidden">
+          <label for="modelName">LOCAL MODEL NAME</label>
+          <input id="modelName" type="text" value="qwen2.5:3b"
+            placeholder="e.g. qwen2.5:3b">
+          <p>Download the model first, then start Ollama.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultPanel" class="result-panel hidden" aria-live="polite">
+      <div class="result-top">
+        <div>
+          <p class="eyebrow">02 / TRANSMISSION RECEIVED</p>
+          <h2 id="storyTitle">The Last Whisper</h2>
+        </div>
+        <span class="result-icon">◉</span>
+      </div>
+      <div id="storyMeta" class="story-meta">UNKNOWN ORIGIN · UNKNOWN TIME</div>
+      <div id="storyContent" class="story-content"></div>
+      <div class="result-actions">
+        <button id="copyBtn" class="secondary-button" type="button">Copy story</button>
+        <button id="saveBtn" class="secondary-button" type="button">♡ Save to vault</button>
+        <button id="downloadBtn" class="secondary-button" type="button">↓ Download .txt</button>
+      </div>
+    </section>
+
+    <section class="vault">
+      <div class="vault-heading">
+        <div>
+          <p class="eyebrow">03 / WHAT REMAINS</p>
+          <h2>The memory vault</h2>
+        </div>
+        <span id="vaultCount" class="vault-count">0 STORIES</span>
+      </div>
+      <p class="vault-description">
+        Stories you save live in this browser, on this device.
+      </p>
+      <div id="vaultList" class="vault-list">
+        <div class="empty-vault">
+          <span>☾</span>
+          <p>No souls have been preserved yet.</p>
+          <small>Your saved stories will appear here.</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="manifesto">
+      <p class="eyebrow">WHY OPEN INNOVATION?</p>
+      <h2>A ghost should not need a cloud to haunt you.</h2>
+      <p>
+        With a downloaded open-weight model, stories can be generated
+        locally without sending prompts to a third-party AI service.
+        The interface is built with open web technologies, and the
+        memory vault uses local browser storage. You can change models,
+        inspect the code, and adapt the experience without depending
+        on one AI provider.
+      </p>
+      <div class="manifesto-grid">
+        <div><span>01</span><strong>Private by design</strong><small>Local inference keeps prompts on your device.</small></div>
+        <div><span>02</span><strong>Offline potential</strong><small>Works offline after setup and model download, subject to local configuration.</small></div>
+        <div><span>03</span><strong>Freedom to modify</strong><small>Change the model, prompts and interface.</small></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>GHOSTWHISPER AI</span>
+    <span>MADE OF CODE. HAUNTED BY IMAGINATION.</span>
+  </footer>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
